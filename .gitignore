@@ -1,0 +1,29 @@
+# Laravel
+/vendor
+/node_modules
+.env
+.env.backup
+.env.production
+/storage/*.key
+/bootstrap/cache
+Homestead.json
+Homestead.yaml
+
+# Testing
+/coverage
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Frontend (optional, since you're REST-only)
+/public/hot
+/public/build
