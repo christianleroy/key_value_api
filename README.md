@@ -100,6 +100,7 @@ docker run -d \
 Using docker-compose
 
 ```bash
-docker compose up -d --build
+docker compose up -d --build # detached
 docker compose logs -f app   # watch migrate + serve start up
+docker compose down # stop app / remove containers
 ```

@@ -28,7 +28,7 @@ services:
     networks:
       - secret-api-network
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U laravel -d task_api" ]
+      test: [ "CMD-SHELL", "pg_isready -U secret_user -d secret_db" ]
       interval: 5s
       timeout: 5s
       retries: 5
