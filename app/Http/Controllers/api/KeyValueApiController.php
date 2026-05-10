@@ -4,13 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KeyValueRequest;
-use App\Http\Resources\KeyValueResource;
-use App\Models\Key;
 use App\Services\KeyValueService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use OpenApi\Attributes as OA;
 
+#[OA\Tag(name: 'Key Values', description:'API endpoints for managing key and their values.')]
 class KeyValueApiController extends Controller
 {
 
@@ -19,6 +17,7 @@ class KeyValueApiController extends Controller
     #[OA\Get(
         path: '/api/key_values',
         summary: 'List all keys with their latest value',
+        tags: ['Key Values'],
         responses: [
             new OA\Response(
                 response: 200,
@@ -60,6 +59,7 @@ class KeyValueApiController extends Controller
                 ]
             )
         ),
+        tags: ['Key Values'],
         responses: [
             new OA\Response(
                 response: 201,
@@ -100,6 +100,7 @@ class KeyValueApiController extends Controller
         path: '/api/key_values/{key}',
         description: 'Returns the latest value for a key. If a timestamp is provided, returns the most recent value recorded at or before that point in time.',
         summary: 'Get the value of a key',
+        tags: ['Key Values'],
         parameters: [
             new OA\Parameter(
                 name: 'key',

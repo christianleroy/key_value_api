@@ -9,10 +9,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . .
 
-RUN mkdir -p bootstrap/cache storage/logs storage/framework/cache storage/framework/sessions storage/framework/views \
-    && chmod -R 775 bootstrap/cache storage \
-    && composer install --no-dev --optimize-autoloader \
-    && php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+RUN composer install --no-dev --optimize-autoloader
 
 EXPOSE 8000
 
