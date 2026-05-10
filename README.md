@@ -71,3 +71,7 @@ php artisan l5-swagger:generate
 ### Testing the API
 To access Swagger, go to:
 http://localhost:8000/
+
+### Testing the API
+Experimental UI frontend:
+http://localhost:8000/key-values
