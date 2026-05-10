@@ -1,0 +1,195 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Secret API",
+        "description": "Secret API Documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/api/key_values": {
+            "get": {
+                "summary": "List all keys with their latest value",
+                "operationId": "55d56f296cdb373396163ecd1179789a",
+                "responses": {
+                    "200": {
+                        "description": "List of keys with their latest recorded value",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "example": "temperature"
+                                                    },
+                                                    "value": {
+                                                        "description": "The latest recorded value (any JSON type)",
+                                                        "example": {
+                                                            "celsius": 36.6
+                                                        }
+                                                    },
+                                                    "timestamp": {
+                                                        "description": "Unix timestamp of when the value was recorded",
+                                                        "type": "integer",
+                                                        "example": 1715000000
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store a new value for a key",
+                "description": "Creates the key if it does not exist, then records the value with the current timestamp.",
+                "operationId": "244a768c3bd9eda4ef035a8da62efd39",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "key",
+                                    "value"
+                                ],
+                                "properties": {
+                                    "key": {
+                                        "type": "string",
+                                        "example": "temperature",
+                                        "maxLength": 255
+                                    },
+                                    "value": {
+                                        "description": "Any JSON-serializable value",
+                                        "example": {
+                                            "celsius": 36.6
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Value recorded successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Object with the key name as the property and the stored value as its value",
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "description": "The stored value"
+                                    }
+                                },
+                                "example": {
+                                    "temperature": {
+                                        "celsius": 36.6
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The key field is required."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "additionalProperties": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/key_values/{key}": {
+            "get": {
+                "summary": "Get the value of a key",
+                "description": "Returns the latest value for the key. If a timestamp is provided, returns the most recent value recorded at or before that point in time.",
+                "operationId": "7d192e0b91c4e0f37e8743a1b25b3ddc",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "The key name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "temperature"
+                    },
+                    {
+                        "name": "timestamp",
+                        "in": "query",
+                        "description": "Unix timestamp. If provided, returns the most recent value recorded at or before this time.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 1715000000
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The stored value (any JSON type)",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": {
+                                    "celsius": 36.6
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Key not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Key temperature not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
