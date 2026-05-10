@@ -15,10 +15,9 @@ class KeyValueResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
             'key' => $this->key,
-            'value' => $this->values->first()?->value,
-            'timestamp' => $this->values->first()?->recorded_at->timestamp
+            'value' => $this->latestValue->value,
+            'timestamp' => $this->latestValue->recorded_at->timestamp
         ];
     }
 }

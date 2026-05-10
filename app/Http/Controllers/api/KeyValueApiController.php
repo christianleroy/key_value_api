@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\KeyValueRequest;
 use App\Http\Resources\KeyValueResource;
 use App\Models\Key;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class KeyValueApiController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(KeyValueRequest $request)
     {
         $key = Key::firstOrCreate(
             ['key' => $request->key]
@@ -34,7 +35,11 @@ class KeyValueApiController extends Controller
             'recorded_at' => now()
         ]);
 
-        return response()->json($keyValue, 201);
+        $response = [
+            $key->key => $keyValue->value,
+        ];
+
+        return response()->json([$key->key => $keyValue->value], 201);
     }
 
     /**
@@ -43,10 +48,14 @@ class KeyValueApiController extends Controller
     public function show(string $key, Request $request)
     {
         $keyValueConstraint = function ($query) use ($request) {
-            $query->when($request->query('timestamp'), fn($q, $recordedAt) =>
-            $q->where('recorded_at', Carbon::createFromTimestamp($recordedAt)),
+            $query->when($request->query('timestamp'),
+                fn($q, $recordedAt) =>
+                    $q
+                        ->where('recorded_at', '<=', Carbon::createFromTimestamp($recordedAt))
+                        ->latest('recorded_at')
+                        ->limit(1),
                 fn($q) =>
-                $q->latest('recorded_at')->limit(1)
+                    $q->latest('recorded_at')->limit(1)
             );
         };
 
@@ -62,7 +71,7 @@ class KeyValueApiController extends Controller
             return response()->json(['message' => "Key $key not found."], 404);
         }
 
-        return new KeyValueResource($keyValue);
+        return response()->json($keyValue->values->first()->value, 200);
     }
 
     /**
