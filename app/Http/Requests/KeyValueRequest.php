@@ -24,6 +24,7 @@ class KeyValueRequest extends FormRequest
     {
         return [
             'key' => 'required|string',
+            'value' => 'required',
 //            'value' => 'required|array', // this is to be enabled if values must strictly be objects
         ];
     }
