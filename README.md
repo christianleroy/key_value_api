@@ -1,11 +1,12 @@
 # Getting Started
 
-## Prerequisite
+## Required Installations
 - Docker
 - PHP
 - Composer
 - Laravel
 - Postgres
+- npm
 
 ## Setup
 
@@ -26,13 +27,18 @@ DB_USERNAME=secret_user
 DB_PASSWORD=secretpass
 ```
 
+Generate app key and set it as the APP_ENV variable.
+```bash
+php artisan key:generate
+```
+
 The default values above are used in docker-compose.yml. This is how we will run the project locally. Modify docker-compose.yml accordingly if you changed the default values.
 
 ## Running the application
 
 ### Build and run
 ```bash
-docker compose up -d --build # detached
+docker compose up -d --build
 ```
 ### Build and run the application only, database will not be restarted.
 
@@ -40,13 +46,13 @@ docker compose up -d --build # detached
 docker compose up -d --build app
 ```
 
-### Stop the application and database
+### Stop the entire service
 
 ```bash
 docker compose down
 ```
 
-### Or stop the app only
+### Or stop only the application
 
 ```bash
 docker compose stop app
@@ -64,4 +70,4 @@ php artisan l5-swagger:generate
 
 ### Testing the API
 To access Swagger, go to:
-http://localhost:8000/api/documentation#/
+http://localhost:8000/
