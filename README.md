@@ -27,7 +27,7 @@ DB_USERNAME=secret_user
 DB_PASSWORD=secretpass
 ```
 
-Generate app key and set it as the APP_ENV variable.
+Generate app key and set it as the APP_KEY variable.
 ```bash
 php artisan key:generate
 ```
