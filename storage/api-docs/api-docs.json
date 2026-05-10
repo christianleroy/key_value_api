@@ -18,7 +18,7 @@
                 "operationId": "55d56f296cdb373396163ecd1179789a",
                 "responses": {
                     "200": {
-                        "description": "List of keys with their latest recorded value",
+                        "description": "List of keys with their latest value",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -136,7 +136,7 @@
         "/api/key_values/{key}": {
             "get": {
                 "summary": "Get the value of a key",
-                "description": "Returns the latest value for the key. If a timestamp is provided, returns the most recent value recorded at or before that point in time.",
+                "description": "Returns the latest value for a key. If a timestamp is provided, returns the most recent value recorded at or before that point in time.",
                 "operationId": "7d192e0b91c4e0f37e8743a1b25b3ddc",
                 "parameters": [
                     {
