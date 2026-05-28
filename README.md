@@ -1,3 +1,6 @@
+# Overview
+Key Value API is a simulation of a Key-Value datastore, similar to Redis. This API is built mainly using PHP, Laravel, and Postgres.
+
 # Getting Started
 
 ## Required Installations
